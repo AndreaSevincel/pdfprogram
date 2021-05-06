@@ -1,36 +1,75 @@
 import PyPDF2
 import re
-import sys
-import os
+import glob
 import string
 
-# open the pdf file
-object2 = input("The directory?: ")
+#your full path of directory
+PDFpath = input("The Folder Of The PDF Here: ")
 
-object = PyPDF2.PdfFileReader(object2)
+input_String = input("The Word You Want to Search?: ")
 
-# get number of pages
-NumPages = object.getNumPages()
+for file in glob.glob(PDFpath + "/*.pdf"):
+    if file.endswith('.pdf'):
+        fileReader = PyPDF2.PdfFileReader(open(file, "rb"))
+
+    NumPages = fileReader.getNumPages()
+
+#C:\Users\user\OneDrive\Masaüstü\pdfler
+
+    def PdfWrite():
+        for i in range(0, NumPages):
+            PageObj = fileReader.getPage(i)
+            #get pages as i, so Numpages times
+            print("This is Page: ")
+            print(i + 1)
+            Text = PageObj.extractText()
+            ResSearch = re.search(input_String, Text)
+            print(file)
+            print(ResSearch)
+
+    PdfWrite()
+#The func at line 13
 
 
+    if input_String.islower:
+        print("--------------UpperCASE --------------")
+        String2 = input_String.capitalize()
+        #if string is lowercase capitalize the string then continue.
+        def OzetPdfWrite2():
+            for i in range(0, NumPages):
+                PageObj = fileReader.getPage(i)
+                Text = PageObj.extractText()
+                ResSearch = re.search(String2, Text)
+                #Ressearch is the word
 
-# define keyterms
-String = input("The Word you want to search?: ")
+                if not ResSearch:
+                    pass
+                else:
+                    print("This is Page: ")
+                    print(i + 1)
+                    print(file)
+                    print(ResSearch)
 
-def Printing():
-    for i in range(0, NumPages):
-        PageObj = object.getPage(i)
-        print("This is Page: ")
-        print(i + 1) 
-        Text = PageObj.extractText() 
-        #print(Text)
-        ResSearch = re.search(String, Text)
-        print(ResSearch)
-Printing()
-print("--------------UpperCASE ------------ ")
+        PdfWrite()
+        #ozet kisminda none yok
+    def OzetWriting():
+        print("---------Ozet----------")
+        for i in range(0, NumPages):
+            PageObj = fileReader.getPage(i)
+            Text = PageObj.extractText()
+            ResSearch = re.search(input_String, Text)
+            #ressearch null ise bir sey yazma
 
-if String.islower:
-    String2 = String.capitalize()
+            if not ResSearch:
+                pass
+            else:
+                print("This is Page: ")
+                print(i + 1)
+                print(file)
+                print(ResSearch)
 
-      
-Printing()
+    OzetWriting()
+
+    print("--------------Ozet but Uppercase--------------")#Uppercase is the func PdfWrite2
+
+    OzetPdfWrite2()# line 29 (ozetin buyuk harflisi)
