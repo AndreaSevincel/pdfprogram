@@ -28,7 +28,7 @@ for file in glob.glob(PDFpath + "/*.pdf"):
             print(ResSearch)
 
     PdfWrite()
-#The func at line 13
+
 
 
     if input_String.islower:
